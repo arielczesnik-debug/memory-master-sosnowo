@@ -1,142 +1,40 @@
 <!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#1459b8">
-  <title>Memory Master 2.0 – SP Sosnowo</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <style>
-    :root{--b:#123b78;--b2:#2a67b3;--y:#f0c53a;--g:#2f9d73;--ink:#16304d;--muted:#678;--bg:#eef8ff;--card:#ffffff;--line:#d7e6f6;--shadow:0 12px 30px rgba(20,89,184,.12)}
-    *{box-sizing:border-box} html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f4fbff,#ffffff 45%,#fffdf2);color:var(--ink)}
-    button,input,select{font:inherit} button{cursor:pointer;touch-action:manipulation}
-    .wrap{max-width:1150px;margin:auto;padding:16px}
-    .hero{display:grid;grid-template-columns:170px 1fr 180px;gap:18px;align-items:center;background:linear-gradient(135deg,var(--b),var(--b2));color:white;padding:20px 22px;border-radius:24px;box-shadow:0 18px 40px rgba(18,59,120,.22)}
-    .logoBox{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:26px;padding:10px;min-height:140px}
-    .logoBox img{max-width:100%;max-height:120px;object-fit:contain}
-    .mascot{display:flex;justify-content:center;align-items:end;min-height:150px}
-    .mascot img{width:min(160px,100%);height:auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}
-    .hero h1{margin:0;font-size:clamp(28px,5vw,52px);line-height:.95;font-weight:900;letter-spacing:-.02em}
-    .hero p{margin:.6rem 0 0;font-size:clamp(14px,2.4vw,19px);opacity:.96}
-    .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-    .badge{background:rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-weight:700;font-size:14px}
-    .panel{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}
-    .panel .head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(180deg,#fff,#f8fbff)}
-    .panel .body{padding:16px 18px}
-    .muted{color:var(--muted)}
-    .toolbar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
-    .select, .action, .textin{width:100%;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink)}
-    .action{background:var(--b);border-color:var(--b);color:#fff;font-weight:800}
-    .action.alt{background:#ecf5ff;color:var(--b);border-color:#cfe4fa}
-    .classgrid,.modegrid{display:grid;gap:10px}
-    .classgrid{grid-template-columns:repeat(5,1fr)} .modegrid{grid-template-columns:repeat(4,1fr)}
-    .pillbtn{padding:12px 10px;border-radius:16px;border:2px solid #cfe4fa;background:#eff7ff;font-weight:800;color:var(--b)}
-    .pillbtn.active{background:var(--y);border-color:#f0bf00;color:#27364c}
-    .two{display:grid;grid-template-columns:1.5fr .95fr;gap:16px;align-items:start}
-    .progressbar{height:11px;background:#e9eff6;border-radius:999px;overflow:hidden} .progressbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--b2))}
-    .scoreline{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
-    .question{padding:22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f8fbff);border:2px solid #dcecf8;text-align:center}
-    .cat{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--b2);font-weight:900}
-    .prompt{font-size:clamp(28px,6vw,44px);font-weight:900;margin:14px 0 10px;line-height:1.08;word-break:break-word}
-    .sub{font-size:15px;color:var(--muted)}
-    .answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
-    .answer{padding:14px;border-radius:18px;border:2px solid #d8e8f5;background:#f3f8fd;text-align:left;font-weight:700;color:#16304d}
-    .answer.correct{background:#e9f9ef;border-color:#84caa0;color:#11613a} .answer.wrong{background:#fff1f1;border-color:#e38f8f;color:#8a2323}
-    .feedback{min-height:28px;font-weight:900;margin-top:12px}
-    .flash{perspective:1000px;cursor:pointer} .flashin{position:relative;min-height:280px;transition:.55s;transform-style:preserve-3d} .flash.flipped .flashin{transform:rotateY(180deg)}
-    .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#eaf7ff,#fff);border:2px solid #dcecf8} .face.back{transform:rotateY(180deg);background:linear-gradient(135deg,#fff8d7,#fff)}
-    .big{font-size:clamp(30px,6vw,52px);font-weight:900;text-align:center}
-    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
-    .statcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} .stat{background:#f6fbff;border:1px solid #d7e6f5;border-radius:18px;padding:14px} .stat b{display:block;font-size:26px;margin-top:4px}
-    .tableWrap{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:18px} table{width:100%;border-collapse:collapse;font-size:14px;background:#fff} th,td{padding:10px 12px;border-bottom:1px solid #e8f1f8;text-align:left} th{position:sticky;top:0;background:#f7fbff;z-index:1}
-    .searchLine{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-bottom:12px}
-    .miniinfo{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px} .miniinfo span{background:#eef7ff;color:var(--b);padding:6px 10px;border-radius:999px;font-size:13px;font-weight:700}
-    .leader li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px dashed #d7e6f5} .leader ol{padding-left:18px;margin:0}
-    .small{font-size:13px;color:var(--muted)}
-    .installBox{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff9d9;border:1px solid #ffe36d;border-radius:18px;padding:12px 14px;margin-top:14px}
-    .footer{text-align:center;color:var(--muted);font-size:13px;padding:18px 0 40px}
-    @media (max-width:980px){.hero{grid-template-columns:130px 1fr 130px} .toolbar{grid-template-columns:1fr 1fr 1fr} .two{grid-template-columns:1fr} .modegrid{grid-template-columns:1fr 1fr} .statcards{grid-template-columns:1fr 1fr}}
-    @media (max-width:700px){.wrap{padding:10px} .hero{grid-template-columns:1fr; text-align:center} .mascot{order:3} .logoBox{min-height:100px} .classgrid{grid-template-columns:repeat(5,1fr)} .toolbar{grid-template-columns:1fr 1fr} .answers{grid-template-columns:1fr} .searchLine{grid-template-columns:1fr} .statcards{grid-template-columns:1fr} }
-  </style>
-</head>
-<body>
-<div class="wrap">
-  <header class="hero">
-    <div class="logoBox"><img src="assets/logo-szkoly.png" alt="Logo Szkoły Podstawowej w Sosnowie"></div>
-    <div>
-      <h1>Memory Master 2.2</h1>
-      <p><b>Szkoła Podstawowa w Sosnowie</b> • oficjalna szkolna wersja mobilnej aplikacji do powtórek słownictwa dla klas 4–8</p>
-      <div class="badges">
-        <span class="badge">📱 działa na telefonie</span>
-        <span class="badge">🧠 fiszki + quizy + symulacja</span>
-        <span class="badge">🏆 ranking lokalny</span>
-        <span class="badge">📘 wersja szkolna 2.2</span>
-      </div>
-    </div>
-    <div class="mascot"><img src="assets/mini-me.png" alt="Mini wersja nauczyciela"></div>
-  </header>
-
-  <section class="panel">
-    <div class="head"><b>Informacja dla uczniów i rodziców</b><span class="small">Wersja szkolna • FULL SYNC</span></div>
-    <div class="body">
-      <div class="small" style="font-size:15px;line-height:1.7;color:#294868">
-        Aplikacja pomaga ćwiczyć słownictwo do konkursu Memory Master w wygodnej formie na komputerze i telefonie. 
-        Zawiera quizy, fiszki, pisownię, anagramy, prawda/fałsz, wybhór kategorii, dobieranie par, zadania arkuszowe oraz mini-egzamin na czas. 
-        Wyniki zapisują się lokalnie wf przeglądarce na danym urządzeniu.
-      </div>
-    </div>
-  </section>
-
-  <div class="installBox" id="installBox" hidden>
-    <div><b>Zainstaluj aplikację</b><div class="small">Na telefonie możesz dodać ją do ekranu głównego jak zawykłą aplikację.</div></div>
-    <button class="action" id="installBtn" style="width:auto">✬ Zainstaluj</button>
-  </div>
-
-  <section class="panel">
-    <div class="head"><b>1. Ustawienia treningu</b><span class="small">Wybierz klasÙ, tryb i zakres pytań</span></div>
-    <div class="body">
-      <div class="classgrid" id="classGrid"></div>
-      <div style="height:10px"></div>
-      <div class="modegrid" id="modeGrid"></div>
-      <div style="height:12px"></div>
-      <div class="toolbar">
-        <select id="category" class="select"></select>
-        <select id="count" class="select"><option value="10">10 pytań</option><option value="20" selected>20 pytań</option><option value="30">30 pytań</option></select>
-        <select id="difficulty" class="select"><option value="normal">Poziom: standard</option><option value="hard">Poziom: trudniej</option></select>
-        <select id="timeLimit" class="select"><option value="5">Timer: 5 min</option><option value="10" selected>Timer: 10 min</option><option value="15">Timer: 15 min</option></select>
-        <input id="nickname" class="textin" maxlength="18" placeholder="Pseudonim do rankingu">
-        <button id="startBtn" class="action">START</button>
-        <button id="resetLeaderboard" class="action alt">Wyczyść ranking</button>
-      </div>
-      <div class="miniinfo" id="summaryPills"></div>
-      <div id="syncNotice" class="small" style="margin-top:10px;padding:10px 12px;border-radius:14px;background:#f5f9ff;border:1px solid #d7e6f6"></div>
-    </div>
-  </section>
-
-  <div class="two">
-    <section class="panel">
-      <div class="head"><b>2. Strefa gry</b><span class="small" id="stageInfo">Gotowy do startu</span><span class="small" id="timerBadge"></span></div>
-      <div class="body">
-        <div class="scoreline"><div class="progressbar"><i id="bar"></i></div><div><b id="scoreText">0/0</b></div></div>
-        <div id="stageArea" class="question">
-          <div class="prompt">Kliknij START, aby rozpoczĄć.</div>
-          <div class="sub">Możesz ćwiczyć przez fiszki, quizy, pisownię, anagramy, prawda/fałsz, wybór kategorii, dobieranie par lub włączyć symulację testu.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="head"><b>3. Statystyki i ranking</b><span class="small">Zapisywane lokalnie wf przeglądarce</span></div>
-      <div class="body">
-        <div class="statcards" id="stats"></div>
-        <h4 style="margin:18px 0 10px">🏭 Najlepsze wyniki</h4>
-        <div class="leader" id="leaderboard"></div>
-      </div>
-    </section>
-  </div>
-
-  <section class="panel">
-    <div class="head"><b>4. Przegląd słówek</b><span class="small">Po wdrożeniu na GitHub Pages aplikacja wygeneruje pełne bazy z oficjalnych PDFów Memory Master</span></div>
-    <div class="body">
-      <div class="searchLine">
-        <input id="filterText" class="textin" placeholder="Szukaj po angielsku, po polsku lub po kategor
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b78">
+<title>Memory Master 2.2 – SP Sosnowo</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--b:#123b78;--b2:#2a67b3;--y:#f0c53a;--g:#27966d;--ink:#17304d;--muted:#64748b;--line:#d8e7f5;--bg:#f4faff;--card:#fff}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(#eef8ff,#fff)}button,input,select{font:inherit}.wrap{max-width:1120px;margin:auto;padding:12px}.hero{display:grid;grid-template-columns:145px 1fr 160px;gap:18px;align-items:center;background:linear-gradient(135deg,var(--b),var(--b2));color:#fff;border-radius:26px;padding:18px;box-shadow:0 18px 40px #123b7830}.hero img{max-width:100%;max-height:135px;object-fit:contain}.logo{background:#ffffff18;border:1px solid #ffffff36;border-radius:22px;padding:8px;text-align:center}.hero h1{font-size:clamp(30px,5vw,54px);margin:0;line-height:.95}.hero p{margin:.7rem 0 0}.badges,.pills,.row{display:flex;gap:8px;flex-wrap:wrap}.badge,.pills span{padding:7px 10px;border-radius:999px;font-size:13px;font-weight:700}.badge{background:#ffffff20;border:1px solid #ffffff2f}.panel{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 28px #123b7812}.head{padding:14px 16px;background:#f8fbff;border-bottom:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;align-items:center}.body{padding:16px}.small{font-size:13px;color:var(--muted)}.classes,.modes{display:grid;gap:8px}.classes{grid-template-columns:repeat(5,1fr)}.modes{grid-template-columns:repeat(5,1fr)}.pick{border:2px solid #cfe2f7;border-radius:14px;background:#eff7ff;color:var(--b);font-weight:800;padding:11px 8px;cursor:pointer}.pick.active{background:var(--y);border-color:#d8aa10;color:#26364b}.tools{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;gap:8px;margin-top:10px}.ctl{width:100%;border:2px solid var(--line);border-radius:13px;padding:11px;background:#fff;color:var(--ink)}.btn{border:0;border-radius:13px;padding:12px 15px;background:var(--b);color:#fff;font-weight:800;cursor:pointer}.btn.alt{background:#edf6ff;color:var(--b);border:2px solid #cfe2f7}.pills{margin-top:10px}.pills span{background:#edf6ff;color:var(--b)}.sync{margin-top:10px;padding:10px 12px;border-radius:13px;background:#f6fbff;border:1px solid var(--line)}.gamegrid{display:grid;grid-template-columns:1.55fr .85fr;gap:14px}.scoreline{display:flex;gap:12px;align-items:center;margin-bottom:12px}.bar{height:11px;flex:1;background:#e8eff7;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),#43a9e8)}.stage{min-height:300px;border:2px solid #dbeaf7;border-radius:22px;background:linear-gradient(#fff,#f8fbff);padding:22px;text-align:center;display:flex;flex-direction:column;justify-content:center}.cat{font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--b2);text-transform:uppercase}.prompt{font-size:clamp(27px,6vw,45px);font-weight:900;margin:12px 0}.answers{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.answer{border:2px solid #d8e7f5;background:#f3f8fd;border-radius:15px;padding:13px;font-weight:700;cursor:pointer;color:var(--ink)}.answer.ok{background:#e7f8ed;border-color:#77c698;color:#12613a}.answer.bad{background:#fff0f0;border-color:#e08b8b;color:#852222}.feedback{min-height:26px;font-weight:900;margin-top:10px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#f7fbff;border:1px solid var(--line);border-radius:15px;padding:12px}.stat b{font-size:24px;display:block}.tablewrap{max-height:430px;overflow:auto;border:1px solid var(--line);border-radius:15px}table{width:100%;border-collapse:collapse}th,td{padding:9px 11px;border-bottom:1px solid #e7f0f8;text-align:left;font-size:14px}th{position:sticky;top:0;background:#f7fbff}.search{display:grid;grid-template-columns:1fr 220px;gap:8px;margin-bottom:10px}.flash{font-size:clamp(30px,6vw,52px);font-weight:900}.footer{text-align:center;padding:22px;color:var(--muted);font-size:13px}@media(max-width:850px){.hero{grid-template-columns:100px 1fr 110px}.modes{grid-template-columns:repeat(3,1fr)}.tools{grid-template-columns:1fr 1fr}.gamegrid{grid-template-columns:1fr}}@media(max-width:600px){.hero{grid-template-columns:1fr;text-align:center}.hero img{max-height:105px}.modes{grid-template-columns:1fr 1fr}.answers{grid-template-columns:1fr}.search{grid-template-columns:1fr}.classes{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head><body><div class="wrap">
+<header class="hero"><div class="logo"><img src="assets/logo-szkoly.png" alt="Logo SP Sosnowo"></div><div><h1>Memory Master 2.2</h1><p><b>Szkoła Podstawowa w Sosnowie</b><br>mobilne powtórki słownictwa dla klas 4–8</p><div class="badges"><span class="badge">📱 telefon i komputer</span><span class="badge">🧠 pełne listy</span><span class="badge">🏆 symulacja 30</span><span class="badge">⚡ offline po pierwszym uruchomieniu</span></div></div><div><img src="assets/mini-me.png" alt="Miniatura nauczyciela"></div></header>
+<section class="panel"><div class="head"><b>1. Ustawienia treningu</b><span class="small">Wybierz klasę i tryb</span></div><div class="body"><div class="classes" id="classes"></div><div class="modes" id="modes" style="margin-top:10px"></div><div class="tools"><select id="category" class="ctl"></select><select id="count" class="ctl"><option>10</option><option selected>20</option><option>30</option></select><select id="time" class="ctl"><option value="0">Bez timera</option><option value="5">5 min</option><option value="10">10 min</option><option value="15">15 min</option></select><input id="nick" class="ctl" maxlength="18" placeholder="Pseudonim"><button id="start" class="btn">START</button></div><div class="pills" id="pills"></div><div class="sync small" id="sync">Ładowanie pełnej bazy…</div></div></section>
+<div class="gamegrid"><section class="panel"><div class="head"><b>2. Strefa gry</b><span class="small" id="status">Gotowy</span></div><div class="body"><div class="scoreline"><div class="bar"><i id="bar"></i></div><b id="score">0/0</b><span class="small" id="timer"></span></div><div class="stage" id="stage"><div class="prompt">Kliknij START</div><div class="small">Fiszki, tłumaczenia, pisownia, anagramy, prawda/fałsz, kategorie, dobieranie par, MIX i symulacja konkursowa.</div></div></div></section><section class="panel"><div class="head"><b>3. Statystyki</b><button id="clear" class="btn alt" style="padding:7px 9px">Wyczyść</button></div><div class="body"><div class="stats" id="stats"></div><h4>Najlepsze wyniki</h4><div id="leader" class="small"></div></div></section></div>
+<section class="panel"><div class="head"><b>4. Przegląd słówek</b><span class="small" id="wordCount"></span></div><div class="body"><div class="search"><input id="search" class="ctl" placeholder="Szukaj po angielsku, polsku lub kategorii"><select id="viewCat" class="ctl"></select></div><div class="tablewrap"><table><thead><tr><th>Kategoria</th><th>English</th><th>Polski</th></tr></thead><tbody id="rows"></tbody></table></div></div></section>
+<div class="footer">SP Sosnowo • szkolna aplikacja powtórkowa Memory Master</div></div>
+<script>
+let DATA={"4":[],"5":[],"6":[],"7":[],"8":[]};let META={fullImport:false,counts:{}};let cls='4',mode='mix',deck=[],idx=0,pts=0,current=null,locked=false,timerId=null,endAt=0;
+const FALLBACK={"4":[{"cat":"START","en":"apple","pl":"jabłko"},{"cat":"START","en":"brother","pl":"brat"},{"cat":"START","en":"green","pl":"zielony"},{"cat":"START","en":"bread","pl":"chleb"}],"5":[{"cat":"START","en":"ancestor","pl":"przodek"},{"cat":"START","en":"watermelon","pl":"arbuz"},{"cat":"START","en":"slice","pl":"kroić w plasterki"},{"cat":"START","en":"silver","pl":"srebrny"}],"6":[{"cat":"START","en":"ambitious","pl":"ambitny"},{"cat":"START","en":"freckles","pl":"piegi"},{"cat":"START","en":"ponytail","pl":"kitka"},{"cat":"START","en":"siblings","pl":"rodzeństwo"}],"7":[{"cat":"START","en":"complexion","pl":"karnacja"},{"cat":"START","en":"eyelash","pl":"rzęsa"},{"cat":"START","en":"wavy hair","pl":"falujące włosy"},{"cat":"START","en":"scar","pl":"blizna"}],"8":[{"cat":"START","en":"stubborn","pl":"uparty"},{"cat":"START","en":"exhausted","pl":"wyczerpany"},{"cat":"START","en":"wrist","pl":"nadgarstek"},{"cat":"START","en":"reliable","pl":"godny zaufania"}]};
+const MODES=[['flash','🃏 Fiszki'],['enpl','🇬🇧 EN→PL'],['plen','🇵🇱 PL→EN'],['spell','⌨️ Pisownia'],['anagram','🔀 Anagram'],['tf','✅❌ P/F'],['cat','🗂️ Kategoria'],['match','🔗 Pary'],['mix','🎯 MIX'],['exam','🏆 Symulacja 30']];const $=id=>document.getElementById(id);const shuffle=a=>{a=[...a];for(let i=a.length-1;i;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};const norm=s=>(s||'').toLowerCase().trim().replace(/\s+/g,' ');
+function cats(){return [...new Set(DATA[cls].map(x=>x.cat))].sort()}function pool(){let c=$('category').value;return DATA[cls].filter(x=>c==='ALL'||x.cat===c)}function renderSelectors(){classes.innerHTML='45678'.split('').map(c=>`<button class="pick ${c===cls?'active':''}" data-c="${c}">${c}</button>`).join('');classes.querySelectorAll('button').forEach(b=>b.onclick=()=>{cls=b.dataset.c;renderAll()});modes.innerHTML=MODES.map(x=>`<button class="pick ${x[0]===mode?'active':''}" data-m="${x[0]}">${x[1]}</button>`).join('');modes.querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;renderSelectors();renderPills()});let cs=cats();category.innerHTML='<option value="ALL">Wszystkie kategorie</option>'+cs.map(c=>`<option>${c}</option>`).join('');viewCat.innerHTML='<option value="ALL">Wszystkie kategorie</option>'+cs.map(c=>`<option>${c}</option>`).join('')}
+function renderPills(){pills.innerHTML=`<span>Klasa ${cls}</span><span>${DATA[cls].length} haseł</span><span>${cats().length} kategorii</span><span>${MODES.find(x=>x[0]===mode)?.[1]}</span>`;wordCount.textContent=`${DATA[cls].length} haseł`}
+function statsKey(){return 'mm22_'+cls}function readStats(){try{return JSON.parse(localStorage.getItem(statsKey()))||{games:0,answers:0,correct:0,best:0}}catch{return{games:0,answers:0,correct:0,best:0}}}function saveAnswer(ok){let s=readStats();s.answers++;if(ok)s.correct++;localStorage.setItem(statsKey(),JSON.stringify(s));renderStats()}function finishStats(p){let s=readStats();s.games++;s.best=Math.max(s.best,p);localStorage.setItem(statsKey(),JSON.stringify(s));renderStats()}function renderStats(){let s=readStats(),a=s.answers?Math.round(100*s.correct/s.answers):0;stats.innerHTML=`<div class="stat">Sesje<b>${s.games}</b></div><div class="stat">Skuteczność<b>${a}%</b></div><div class="stat">Odpowiedzi<b>${s.answers}</b></div><div class="stat">Rekord<b>${s.best}%</b></div>`;let l=JSON.parse(localStorage.getItem('mm22lead')||'[]').filter(x=>x.cls===cls).slice(0,8);leader.innerHTML=l.length?l.map((x,i)=>`${i+1}. <b>${x.nick}</b> — ${x.pct}% (${x.score}/${x.total})`).join('<br>'):'Brak wyników.'}
+function renderRows(){let q=norm(search.value),c=viewCat.value;let r=DATA[cls].filter(x=>(c==='ALL'||x.cat===c)&&(!q||norm(x.en).includes(q)||norm(x.pl).includes(q)||norm(x.cat).includes(q)));rows.innerHTML=r.map(x=>`<tr><td>${x.cat}</td><td><b>${x.en}</b></td><td>${x.pl}</td></tr>`).join('')}
+function renderAll(){renderSelectors();renderPills();renderStats();renderRows()}function progress(){bar.style.width=`${deck.length?Math.round(idx/deck.length*100):0}%`;score.textContent=`${pts}/${idx}`;status.textContent=deck.length?`Pytanie ${Math.min(idx+1,deck.length)} z ${deck.length}`:'Gotowy'}
+function startGame(){let p=pool();if(p.length<4)return alert('Za mało haseł w tej kategorii.');let n=mode==='exam'?30:Number(count.value);deck=shuffle(p).slice(0,Math.min(n,p.length));idx=pts=0;locked=false;startTimer();next()}
+function next(){locked=false;if(idx>=deck.length)return finish();current=deck[idx];let m=mode;if(m==='mix'||m==='exam')m=shuffle(['enpl','plen','spell','anagram','tf','cat'])[0];if(m==='flash')return flash();if(m==='spell')return spell();if(m==='anagram')return anagram();if(m==='tf')return tf();if(m==='cat')return categoryQ();if(m==='match')return matchQ();mc(m)}
+function mc(m){let key=m==='enpl'?'pl':'en',prompt=m==='enpl'?current.en:current.pl;let opts=shuffle([current[key],...shuffle([...new Set(DATA[cls].filter(x=>x!==current).map(x=>x[key]))]).slice(0,3)]);stage.innerHTML=`<div class="cat">${current.cat}</div><div class="prompt">${prompt}</div><div class="answers">${opts.map(o=>`<button class="answer">${o}</button>`).join('')}</div><div class="feedback" id="fb"></div>`;stage.querySelectorAll('.answer').forEach(b=>b.onclick=()=>judgeMC(b,b.textContent,current[key]));progress()}
+function judgeMC(b,v,ans){if(locked)return;locked=true;let ok=norm(v)===norm(ans);stage.querySelectorAll('.answer').forEach(x=>{x.disabled=true;if(norm(x.textContent)===norm(ans))x.classList.add('ok')});if(!ok)b.classList.add('bad');else pts++;fb.textContent=ok?'✅ Dobrze!':`❌ Poprawnie: ${ans}`;saveAnswer(ok);idx++;progress();setTimeout(next,700)}
+function spell(){stage.innerHTML=`<div class="cat">${current.cat}</div><div class="small">Wpisz po angielsku</div><div class="prompt">${current.pl}</div><div class="row" style="justify-content:center"><input id="inp" class="ctl" style="max-width:360px"><button id="check" class="btn">Sprawdź</button></div><div class="feedback" id="fb"></div>`;check.onclick=()=>judgeText();inp.onkeydown=e=>{if(e.key==='Enter')judgeText()};inp.focus();progress()}function judgeText(){if(locked)return;locked=true;let ok=norm(inp.value)===norm(current.en);if(ok)pts++;fb.textContent=ok?'✅ Dobrze!':`❌ Poprawnie: ${current.en}`;saveAnswer(ok);idx++;progress();setTimeout(next,800)}
+function anagram(){let letters=current.en.replace(/[^a-zA-Z]/g,'');if(letters.length<3)return mc('plen');let mixed=shuffle(letters.split('')).join('');stage.innerHTML=`<div class="cat">Anagram • ${current.pl}</div><div class="prompt" style="letter-spacing:.1em">${mixed}</div><div class="row" style="justify-content:center"><input id="inp" class="ctl" style="max-width:360px"><button id="check" class="btn">Sprawdź</button></div><div class="feedback" id="fb"></div>`;check.onclick=()=>judgeText();inp.onkeydown=e=>{if(e.key==='Enter')judgeText()};progress()}
+function tf(){let good=Math.random()<.5,shown=good?current.pl:shuffle(DATA[cls].filter(x=>x!==current))[0].pl;window.tfGood=good;stage.innerHTML=`<div class="cat">Prawda / Fałsz</div><div class="prompt">${current.en}</div><div style="font-size:24px;font-weight:800">${shown}</div><div class="row" style="justify-content:center"><button class="btn" onclick="judgeTF(true)">✅ PRAWDA</button><button class="btn alt" onclick="judgeTF(false)">❌ FAŁSZ</button></div><div class="feedback" id="fb"></div>`;progress()}function judgeTF(v){if(locked)return;locked=true;let ok=v===window.tfGood;if(ok)pts++;fb.textContent=ok?'✅ Dobrze!':`❌ Odpowiedź: ${window.tfGood?'PRAWDA':'FAŁSZ'}`;saveAnswer(ok);idx++;setTimeout(next,700)}
+function categoryQ(){let opts=shuffle([current.cat,...shuffle(cats().filter(c=>c!==current.cat)).slice(0,3)]);stage.innerHTML=`<div class="cat">Wybierz kategorię</div><div class="prompt">${current.en}</div><div class="answers">${opts.map(o=>`<button class="answer">${o}</button>`).join('')}</div><div class="feedback" id="fb"></div>`;stage.querySelectorAll('.answer').forEach(b=>b.onclick=()=>judgeMC(b,b.textContent,current.cat));progress()}
+function flash(){stage.innerHTML=`<div class="cat">${current.cat}</div><div class="flash" id="flashword">${current.en}</div><div class="small" id="meaning">Dotknij słowa, aby odkryć znaczenie</div><div class="row" style="justify-content:center"><button class="btn alt" id="again">🔁 Jeszcze nie</button><button class="btn" id="know">✅ Umiem</button></div>`;flashword.onclick=()=>meaning.textContent=current.pl;again.onclick=()=>{deck.push(current);saveAnswer(false);idx++;next()};know.onclick=()=>{pts++;saveAnswer(true);idx++;next()};progress()}
+function matchQ(){let set=shuffle(DATA[cls]).slice(0,4);stage.innerHTML=`<div class="cat">Dobieranie par</div><div class="small">Kliknij angielskie hasło, a potem jego polskie znaczenie.</div><div class="answers" id="pairbox">${shuffle([...set.map((x,i)=>({t:x.en,id:i,k:'e'})),...set.map((x,i)=>({t:x.pl,id:i,k:'p'}))]).map(x=>`<button class="answer" data-id="${x.id}" data-k="${x.k}">${x.t}</button>`).join('')}</div><div class="feedback" id="fb"></div>`;let first=null,done=0;pairbox.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.disabled)return;if(!first){first=b;b.classList.add('ok');return}if(first.dataset.id===b.dataset.id&&first.dataset.k!==b.dataset.k){first.disabled=b.disabled=true;b.classList.add('ok');done++;first=null;if(done===4){pts++;saveAnswer(true);idx++;setTimeout(next,500)}}else{first.classList.remove('ok');b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),400);first=null}});progress()}
+function startTimer(){clearInterval(timerId);timer.textContent='';let min=Number(time.value);if(!min)return;endAt=Date.now()+min*60000;timerId=setInterval(()=>{let d=Math.max(0,endAt-Date.now()),m=Math.floor(d/60000),s=Math.floor(d%60000/1000);timer.textContent=`⏱️ ${m}:${String(s).padStart(2,'0')}`;if(d<=0){clearInterval(timerId);finish(true)}},500)}function finish(timed=false){clearInterval(timerId);let pct=deck.length?Math.round(pts/deck.length*100):0;stage.innerHTML=`<div class="prompt">${pct>=90?'🏆':pct>=70?'🥇':'📘'} ${pts}/${deck.length}</div><div style="font-size:26px;font-weight:900;color:var(--b)">${pct}%</div><p>${timed?'Czas minął. ':''}${pct>=90?'Świetny wynik!':'Powtórz trudniejsze hasła i spróbuj ponownie.'}</p><button class="btn" onclick="startGame()">Zagraj ponownie</button>`;bar.style.width='100%';score.textContent=`${pts}/${deck.length}`;status.textContent='Zakończono';finishStats(pct);let l=JSON.parse(localStorage.getItem('mm22lead')||'[]');l.push({nick:nick.value.trim()||'Uczeń',cls,score:pts,total:deck.length,pct});l.sort((a,b)=>b.pct-a.pct);localStorage.setItem('mm22lead',JSON.stringify(l.slice(0,30)));renderStats()}
+start.onclick=startGame;clear.onclick=()=>{if(confirm('Wyczyścić statystyki i ranking?')){localStorage.removeItem(statsKey());localStorage.removeItem('mm22lead');renderStats()}};search.oninput=renderRows;viewCat.onchange=renderRows;category.onchange=renderPills;if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+async function boot(){try{let r=await fetch('./data/vocab.json',{cache:'no-store'});if(!r.ok)throw new Error(r.status);let p=await r.json();DATA=p.data;META=p.meta;sync.innerHTML=`✅ <b>FULL SYNC:</b> pełna baza z oficjalnych list Memory Master. Kl. 4: ${META.counts['4']}, kl. 5: ${META.counts['5']}, kl. 6: ${META.counts['6']}, kl. 7: ${META.counts['7']}, kl. 8: ${META.counts['8']}.`}catch(e){DATA=FALLBACK;sync.innerHTML='⚠️ Tryb awaryjny: pełna baza nie została wczytana. Odśwież stronę po zakończeniu wdrożenia.'}renderAll()}boot();
+</script></body></html>
