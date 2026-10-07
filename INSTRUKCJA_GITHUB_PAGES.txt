@@ -1,0 +1,15 @@
+GITHUB PAGES – MEMORY MASTER 2.2
+
+1. Repozytorium: arielczesnik-debug/memory-master-sosnowo.
+2. Branch: main.
+3. Settings → Pages → Build and deployment → Source: GitHub Actions.
+4. Workflow „Build and deploy Memory Master 2.2” uruchamia się po każdym pushu na main.
+5. Workflow:
+   a) pobiera pięć oficjalnych PDF-ów Memory Master (klasy 4–8),
+   b) odczytuje pełne listy,
+   c) generuje data/vocab.json,
+   d) podmienia bank słownictwa w index.html,
+   e) publikuje stronę przez GitHub Pages.
+6. Po wdrożeniu aplikacja powinna pokazać komunikat „FULL SYNC”.
+
+Jeżeli workflow nie ma dostępu do Pages, sprawdź Settings → Pages oraz Settings → Actions → General → Workflow permissions.
