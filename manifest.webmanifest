@@ -1,0 +1,11 @@
+{
+  "name": "Memory Master 2.2 – SP Sosnowo",
+  "short_name": "MemoryMaster",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef8ff",
+  "theme_color": "#1459b8",
+  "icons": [
+    {"src": "assets/logo-szkoly.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
