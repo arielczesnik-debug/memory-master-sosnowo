@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1459b8">
+  <title>Memory Master 2.0 – SP Sosnowo</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <style>
+    :root{--b:#123b78;--b2:#2a67b3;--y:#f0c53a;--g:#2f9d73;--ink:#16304d;--muted:#678;--bg:#eef8ff;--card:#ffffff;--line:#d7e6f6;--shadow:0 12px 30px rgba(20,89,184,.12)}
+    *{box-sizing:border-box} html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f4fbff,#ffffff 45%,#fffdf2);color:var(--ink)}
+    button,input,select{font:inherit} button{cursor:pointer;touch-action:manipulation}
+    .wrap{max-width:1150px;margin:auto;padding:16px}
+    .hero{display:grid;grid-template-columns:170px 1fr 180px;gap:18px;align-items:center;background:linear-gradient(135deg,var(--b),var(--b2));color:white;padding:20px 22px;border-radius:24px;box-shadow:0 18px 40px rgba(18,59,120,.22)}
+    .logoBox{display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:26px;padding:10px;min-height:140px}
+    .logoBox img{max-width:100%;max-height:120px;object-fit:contain}
+    .mascot{display:flex;justify-content:center;align-items:end;min-height:150px}
+    .mascot img{width:min(160px,100%);height:auto;filter:drop-shadow(0 8px 18px rgba(0,0,0,.18))}
+    .hero h1{margin:0;font-size:clamp(28px,5vw,52px);line-height:.95;font-weight:900;letter-spacing:-.02em}
+    .hero p{margin:.6rem 0 0;font-size:clamp(14px,2.4vw,19px);opacity:.96}
+    .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .badge{background:rgba(255,255,255,.16);padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-weight:700;font-size:14px}
+    .panel{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);overflow:hidden}
+    .panel .head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(180deg,#fff,#f8fbff)}
+    .panel .body{padding:16px 18px}
+    .muted{color:var(--muted)}
+    .toolbar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+    .select, .action, .textin{width:100%;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink)}
+    .action{background:var(--b);border-color:var(--b);color:#fff;font-weight:800}
+    .action.alt{background:#ecf5ff;color:var(--b);border-color:#cfe4fa}
+    .classgrid,.modegrid{display:grid;gap:10px}
+    .classgrid{grid-template-columns:repeat(5,1fr)} .modegrid{grid-template-columns:repeat(4,1fr)}
+    .pillbtn{padding:12px 10px;border-radius:16px;border:2px solid #cfe4fa;background:#eff7ff;font-weight:800;color:var(--b)}
+    .pillbtn.active{background:var(--y);border-color:#f0bf00;color:#27364c}
+    .two{display:grid;grid-template-columns:1.5fr .95fr;gap:16px;align-items:start}
+    .progressbar{height:11px;background:#e9eff6;border-radius:999px;overflow:hidden} .progressbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--b2))}
+    .scoreline{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px}
+    .question{padding:22px;border-radius:24px;background:linear-gradient(180deg,#ffffff,#f8fbff);border:2px solid #dcecf8;text-align:center}
+    .cat{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--b2);font-weight:900}
+    .prompt{font-size:clamp(28px,6vw,44px);font-weight:900;margin:14px 0 10px;line-height:1.08;word-break:break-word}
+    .sub{font-size:15px;color:var(--muted)}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .answer{padding:14px;border-radius:18px;border:2px solid #d8e8f5;background:#f3f8fd;text-align:left;font-weight:700;color:#16304d}
+    .answer.correct{background:#e9f9ef;border-color:#84caa0;color:#11613a} .answer.wrong{background:#fff1f1;border-color:#e38f8f;color:#8a2323}
+    .feedback{min-height:28px;font-weight:900;margin-top:12px}
+    .flash{perspective:1000px;cursor:pointer} .flashin{position:relative;min-height:280px;transition:.55s;transform-style:preserve-3d} .flash.flipped .flashin{transform:rotateY(180deg)}
+    .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:24px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#eaf7ff,#fff);border:2px solid #dcecf8} .face.back{transform:rotateY(180deg);background:linear-gradient(135deg,#fff8d7,#fff)}
+    .big{font-size:clamp(30px,6vw,52px);font-weight:900;text-align:center}
+    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+    .statcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} .stat{background:#f6fbff;border:1px solid #d7e6f5;border-radius:18px;padding:14px} .stat b{display:block;font-size:26px;margin-top:4px}
+    .tableWrap{overflow:auto;max-height:420px;border:1px solid var(--line);border-radius:18px} table{width:100%;border-collapse:collapse;font-size:14px;background:#fff} th,td{padding:10px 12px;border-bottom:1px solid #e8f1f8;text-align:left} th{position:sticky;top:0;background:#f7fbff;z-index:1}
+    .searchLine{display:grid;grid-template-columns:1fr 160px;gap:10px;margin-bottom:12px}
+    .miniinfo{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px} .miniinfo span{background:#eef7ff;color:var(--b);padding:6px 10px;border-radius:999px;font-size:13px;font-weight:700}
+    .leader li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px dashed #d7e6f5} .leader ol{padding-left:18px;margin:0}
+    .small{font-size:13px;color:var(--muted)}
+    .installBox{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff9d9;border:1px solid #ffe36d;border-radius:18px;padding:12px 14px;margin-top:14px}
+    .footer{text-align:center;color:var(--muted);font-size:13px;padding:18px 0 40px}
+    @media (max-width:980px){.hero{grid-template-columns:130px 1fr 130px} .toolbar{grid-template-columns:1fr 1fr 1fr} .two{grid-template-columns:1fr} .modegrid{grid-template-columns:1fr 1fr} .statcards{grid-template-columns:1fr 1fr}}
+    @media (max-width:700px){.wrap{padding:10px} .hero{grid-template-columns:1fr; text-align:center} .mascot{order:3} .logoBox{min-height:100px} .classgrid{grid-template-columns:repeat(5,1fr)} .toolbar{grid-template-columns:1fr 1fr} .answers{grid-template-columns:1fr} .searchLine{grid-template-columns:1fr} .statcards{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="logoBox"><img src="assets/logo-szkoly.png" alt="Logo Szkoły Podstawowej w Sosnowie"></div>
+    <div>
+      <h1>Memory Master 2.2</h1>
+      <p><b>Szkoła Podstawowa w Sosnowie</b> • oficjalna szkolna wersja mobilnej aplikacji do powtórek słownictwa dla klas 4–8</p>
+      <div class="badges">
+        <span class="badge">📱 działa na telefonie</span>
+        <span class="badge">🧠 fiszki + quizy + symulacja</span>
+        <span class="badge">🏆 ranking lokalny</span>
+        <span class="badge">📘 wersja szkolna 2.2</span>
+      </div>
+    </div>
+    <div class="mascot"><img src="assets/mini-me.png" alt="Mini wersja nauczyciela"></div>
+  </header>
+
+  <section class="panel">
+    <div class="head"><b>Informacja dla uczniów i rodziców</b><span class="small">Wersja szkolna • FULL SYNC</span></div>
+    <div class="body">
+      <div class="small" style="font-size:15px;line-height:1.7;color:#294868">
+        Aplikacja pomaga ćwiczyć słownictwo do konkursu Memory Master w wygodnej formie na komputerze i telefonie. 
+        Zawiera quizy, fiszki, pisownię, anagramy, prawda/fałsz, wybhór kategorii, dobieranie par, zadania arkuszowe oraz mini-egzamin na czas. 
+        Wyniki zapisują się lokalnie wf przeglądarce na danym urządzeniu.
+      </div>
+    </div>
+  </section>
+
+  <div class="installBox" id="installBox" hidden>
+    <div><b>Zainstaluj aplikację</b><div class="small">Na telefonie możesz dodać ją do ekranu głównego jak zawykłą aplikację.</div></div>
+    <button class="action" id="installBtn" style="width:auto">✬ Zainstaluj</button>
+  </div>
+
+  <section class="panel">
+    <div class="head"><b>1. Ustawienia treningu</b><span class="small">Wybierz klasÙ, tryb i zakres pytań</span></div>
+    <div class="body">
+      <div class="classgrid" id="classGrid"></div>
+      <div style="height:10px"></div>
+      <div class="modegrid" id="modeGrid"></div>
+      <div style="height:12px"></div>
+      <div class="toolbar">
+        <select id="category" class="select"></select>
+        <select id="count" class="select"><option value="10">10 pytań</option><option value="20" selected>20 pytań</option><option value="30">30 pytań</option></select>
+        <select id="difficulty" class="select"><option value="normal">Poziom: standard</option><option value="hard">Poziom: trudniej</option></select>
+        <select id="timeLimit" class="select"><option value="5">Timer: 5 min</option><option value="10" selected>Timer: 10 min</option><option value="15">Timer: 15 min</option></select>
+        <input id="nickname" class="textin" maxlength="18" placeholder="Pseudonim do rankingu">
+        <button id="startBtn" class="action">START</button>
+        <button id="resetLeaderboard" class="action alt">Wyczyść ranking</button>
+      </div>
+      <div class="miniinfo" id="summaryPills"></div>
+      <div id="syncNotice" class="small" style="margin-top:10px;padding:10px 12px;border-radius:14px;background:#f5f9ff;border:1px solid #d7e6f6"></div>
+    </div>
+  </section>
+
+  <div class="two">
+    <section class="panel">
+      <div class="head"><b>2. Strefa gry</b><span class="small" id="stageInfo">Gotowy do startu</span><span class="small" id="timerBadge"></span></div>
+      <div class="body">
+        <div class="scoreline"><div class="progressbar"><i id="bar"></i></div><div><b id="scoreText">0/0</b></div></div>
+        <div id="stageArea" class="question">
+          <div class="prompt">Kliknij START, aby rozpoczĄć.</div>
+          <div class="sub">Możesz ćwiczyć przez fiszki, quizy, pisownię, anagramy, prawda/fałsz, wybór kategorii, dobieranie par lub włączyć symulację testu.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="head"><b>3. Statystyki i ranking</b><span class="small">Zapisywane lokalnie wf przeglądarce</span></div>
+      <div class="body">
+        <div class="statcards" id="stats"></div>
+        <h4 style="margin:18px 0 10px">🏭 Najlepsze wyniki</h4>
+        <div class="leader" id="leaderboard"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div class="head"><b>4. Przegląd słówek</b><span class="small">Po wdrożeniu na GitHub Pages aplikacja wygeneruje pełne bazy z oficjalnych PDFów Memory Master</span></div>
+    <div class="body">
+      <div class="searchLine">
+        <input id="filterText" class="textin" placeholder="Szukaj po angielsku, po polsku lub po kategor
